@@ -1,0 +1,26 @@
+npm init, so dependencies are installable
+express mongoose passport passport-jwt jsonwebtoken body-parser bcryptjs validator  ..
+$ npm i -D nodemon as Dev dependencies, with it no need to restart server after every change
+server after created in localhost:5000
+
+in package.json under scripts are the start commands for the server.js SO RUNING FROM THE CONSOLE WE CAN ACCESS MORE WAYS TO START SERVER.js IN DIFFERENT WAYS
+npm start = classic way, npm run server     starts the nodemon way, changes ares shown after saving
+
+FOR NOT HAVE THE ROUTES ON SERVER.js , a folder with routes has all that
+config has the keys, -- for mongo etc...
+
+users.js has to do with autentication , profile all stuff in the site.
+.. the routes are used in the server.js   ROUTES ARE MANAGIG THE JSON 
+
+USING EXPRESS routers to us more files one for each resources, (users, posts ,profile)
+
+//THE PORPOSE OF THE BACKEND  AND ROUTES::: IS SERVING JSON TO PICK FROM TEH FRONTEND
+
+//@route GET api/users
+//@description Get all
+//@access Public
+
+in my case is necessary to write those comments for authentication problems
+
+if the access is private for example for people logged in
+they need a jsonwebtoken to use to log in
