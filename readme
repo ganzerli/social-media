@@ -20,7 +20,72 @@ USING EXPRESS routers to us more files one for each resources, (users, posts ,pr
 //@description Get all
 //@access Public
 
-in my case is necessary to write those comments for authentication problems
+ ssl in gitbash has given problems of security, reinstalled git with standard windows whatitis
 
 if the access is private for example for people logged in
 they need a jsonwebtoken to use to log in
+
+after routes are there a schema is created in models,
+every resource needs a schema 
+
+in api/users.js the password get encrypted and an avatar get searched
+webtoken  w/ passport and passport jwt
+json webtoken module creates the token, passport will validate and extract the users informations from it
+
+password should be validated,
+- see bcrypt.compare()
+in Login teh email get checked, if there is the user, the jwt (imported from ('jsonwebtoken'))
+in addition needed is the line:  require("../../config/passport")(passport);
+so that ;   const passport = require("passport");       knows the strategy created in the file passport
+... if the email there is = registered user, User.findOne gives back the obeject with the email matching
+with it will be pulled out further informations from the object to create a payload for the jwt.sign()
+jwt.sign takes: payload, secret or key(imported), expiration time as an object, and a callback function
+with the error and token as parameter, we send back the res.json {boolean: true, token: "Bearer " + token}
+
+once the succeful match is ok gives us a token, nedded is to implement passportt verify the token and make the route private
+pssport has a lot of authentication strategy.. jwt is one, passport is the MAIN AUTHENTICATION MODULE.
+
+for it in server js we need to import passport and before the routes are used:
+app.use(passport.initialize()) and require("../../config/passport")(passport);
+
+in tthe config/passport wil be implemented something like: https://github.com/themikenicholson/passport-jwt
+opts.audience, opts.ssuer dont needed..
+ExtractJwt permit to extract the userdata as payload to use..
+with passport.use(new JwtStrategy) takes opts and a callback including the payloadwith the user data, once it is therewe need to 
+find the user and validate it... see passport.js
+passport: 1 get initialized in the server.js a strategy is created in passport.js and imported
+
+the strategy is used in a protected route,
+passport let us make protected routes, see /current
+accessing current, we need to send the same token, got with the login, as header (as key)"Authorisation"
+with the request.   the jwt strategy we can get the payload for jwt.
+User.findById() mongoose method..  ( jwt_payload.id ) jwt_payload is an object with the jwt datas,
+whith it, in this case id name avatar iat(issued at),and exp.. iration. in seconds
+.. in jwt srtrategy if searching for id user is found we return the function done 
+
+--- the user is enbedded in the token.. when we login
+
+everytime hitting /current we need to send the jwt token as header, got from the login
+
+finished the strategy in /current.. for ex if :  res.json(req.user); gives back:    {
+    "date": "2018-11-02T22:48:05.949Z",
+    "_id": "5bdcd511f80cf020c0a8204e",
+    "name": "First Registration",
+    "email": "firstregistration@yahoo.com",
+    "avatar": "//www.gravatar.com/avatar/d71035d91d9a5eb6808a592c010ffd2d?s=200&r=pg&d=mm",
+    "password": "$2a$10$xkuey/.cSXekbQO7RHeS1.e4YZL/oNBHMKnlhZuTjtKWo4RRdVf4y",
+    "__v": 0                                                             }
+    is not good to have also password back for ex then can be sent just user.id .email .something but not password or private stuff ;)
+ALL TOGETHER: LOGGED IN - GOT TOKEN - TRY TO ACCESS WHITOUT TOKEN IS UNOUTORIZED;
+ADDING THE TOKEN IS RESPONDING WITH THIS USER OBJ
+
+... needed is more validation .. for the words given in the form for the login.. kid of regex stuff
+making a function.
+validator module is validating a string.. see Validator in: https://github.com/chriso/validator.js/
+..but has to be a string .
+ made validateRegistrtionInput(data)  and inserted that in the frst lines when the user logs in router.get(/register)
+
+every fild taking data will be pased fisrt to see if the form data sent are the right format, for that there areall the file
+in the validation direcotry..
+
+those checks will be applied for the dataform methods
