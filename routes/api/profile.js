@@ -157,4 +157,22 @@ router.get("/user/:user_id", (req, res) => {
 //@description Get all
 //@access Public..
 
+router.get("/all", (req, res) => {
+  const errors = {};
+  Profile.find()
+    .populate("user", ["avatar", "name"])
+    .then(profileBunch => {
+      if (!profileBunch) {
+        errors.profiles = "there isn't any profile created yet";
+        return res.status(404).json(errors);
+      } else {
+        return res.json(profileBunch);
+      }
+    })
+    .catch(err =>
+      res
+        .status(404)
+        .json({ profiles: "something went wrong fetching all profiles" })
+    );
+});
 module.exports = router;
