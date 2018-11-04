@@ -88,29 +88,31 @@ router.post("/login", (req, res) => {
   //when form is submit infos will be sent in req.body .. using bodyparser
   //find user from the email
   User.findOne({ email: reqEmail }).then(user => {
+    // Obj
     if (!user) {
       //in case the user is not found ==false we send an error status of not found, and an error called email
       errors.email = "user not found";
       return res.status(404).json(errors);
     }
-
+    // if user is registered just go further for the password
     bcrypt.compare(reqPassword, user.password).then(isThere => {
+      // to find if the password matches
       // match the password, the user password is plain text, compare with bcrypt
       if (isThere) {
         //sign the webtoken, it takes a payload as user information to know which user it is and an expiration
-        const payload = { id: user.id, name: user.name, avatar: user.avatar }; // JWT payload
+        const payload = { id: user.id, name: user.name, avatar: user.avatar }; // JWT payload, when user found id name and avatar given as payload
         jwt.sign(
-          payload,
+          payload, // see strategy, the payload is used to pick up the user object per id
           keys.aSuperSecretKey,
           { expiresIn: 9000 }, //bit > day
           (err, token) => {
             //makes the token and gives it back as response
             res.json({
               jwTokenOk: true,
-              token: "Bearer " + token
-            }); //protocol type
-          }
-        );
+              token: "Bearer " + token //                ##### if everything is ok response gives the token back
+            }); //                                       ##### going to the /current giving the auth token
+          } //                                           ###### the server can know what user it is because of the PAYLOAD
+        ); //                                           ###### /config/passport.js
       } else {
         errors.password = "password incorrect";
         return res.status(400).json(errors);
@@ -128,8 +130,7 @@ router.get(
   // third parameter is the callback.. btw now this route is protected,
   (req, res) => {
     // when auth is done
-
-    res.json(req.user); // now req.user has the object, sent back as res..
+    return res.json(req.user); // now req.user has the object, sent back as res..
   }
 );
 

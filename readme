@@ -88,4 +88,110 @@ validator module is validating a string.. see Validator in: https://github.com/c
 every fild taking data will be pased fisrt to see if the form data sent are the right format, for that there areall the file
 in the validation direcotry..
 
-those checks will be applied for the dataform methods
+those checks will be applied for the dataform methods..
+
+PROFILE.
+- a Schema for the profiles is in models. in the profile for example the user can add many comma separated values 
+for that in the schema are array for those fields
+
+first rout protected that will get the current user profile..
+for to get the profile at route profile/ the token puts the user object in the req.user
+***  the mongoose method find one searches in the Profile schema an user with the id given.. id is in the token..
+as payload when the user logs in     searching in the Profile schema to get all the profile informations
+-- Like in the users routes taking datas is initialized an error object to collect all the issues..
+-- /profile if there is no profile associated with this user (per id...), and the table in the db with the schema
+profile does not have this user we get back no user found, as it is everytime when one user want to search for the profileand there isn't any
+--- this part: just go to the route with the token, token puts the fetched user object (if token valid) in res.user , 
+using Profile.findOne({user: req.body.id}), db watches the profile schema, it takes an id, searches if there is a profile
+in the Profile schema with such id and if found gives back an object with the fields of the profile that has this id..
+.. when a user creates a profile the profile datas have the same id of the user in the user table..
+...2 DB tables one id .. yeah.. 
+
+
+TO CREATE A PROFILE THE URL IS THE SAME /profile BUT  WITH THE POST method..
+we get the id from the token payload of the user and set to that id.. Profile.findOne({ user: req.user.id })
+
+.. when someone want to create the profile POST at /profile fill the filds and save it to the db
+!!!!!       THE POST METHOD IN THE ROUTE /profile CAN CREATE OR UPDATE A PROFILE FO ALREADY CREATED ONE.
+.. so: get everithing in re. body fill the filds, then search for the user just update if not see if the handle there is send an error if handle free save and give back the profile saved
+
+like the other routes taking datas the one for the profile validaes first the required datas then loads all other fields,
+and goes searching for create new checking if the handle exists already or update other.. 
+if everything is ok sends back the infos... 
+when a profile is created in the database the colloction profile has only one table the one for the registrated users that hasve a profile
+
+if we send a POST request to the /profile  it updates the required fields and the other filled out and gives back 
+this saved record in the DB
+{
+    "skills": [
+        "Assembly",
+        "Swim",
+        "Catching the tiket before is sold out"
+    ],
+    "_id": "5bdf4078c16fe71f50298d55",
+    "user": "5bdcd511f80cf020c0a8204e",
+    "handle": "firstregistration",
+    "status": "single",
+    "experience": [],
+    "infos": [],
+    "date": "2018-11-04T18:54:48.092Z",
+    "__v": 0,
+    "job": "job center office",
+    "website": "http://www.google.com"
+}
+@ POST /profile
+ profileFields.user = req.user.id;
+in schema,  user:   needs the ID of the user logged in, and validate with token, that makes the profile       (or updates)....
+ ..in the strategy  the jwt payload has the datas of the user in req.user
+    
+    User.findById(jwt_payload.id)   config/passport file
+
+    if the token findthe user at login get as payload the id of the user object automatically created from DB for this user
+    , the field user in the schema Profiles takes the id of the user who is logged in,
+    so it knows which user has that profile.. from the id..
+
+here we take only the id of the user who has this token, this is the only info of the user bound with the table profile
+
+---  profile created yeah! 
+to access to the profile, the token validates the acces and gives back to the client the obj with all the things filled of type ProfileSchema
+@ get /profile
+ return res.json(profileObj);..  this has all the filds of the profile but no user information..
+
+...SINCE :::::  
+const ProfileSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId, //associate the user by its id,
+    ref: "users"
+  } ....
+                ::::::: IN THE GET METHOD FETCHING THE USER 
+                we are able to populate fields of the 'users' 
+
+Profile.findOne({ user: req.user.id })
+      .populate('user',['name','avatar']) /// adding this line in the response we get the filds of "users" for this user together with the response..
+      .then(profileObj => {       but .....      ..always..
+        if (!profileObj) {   only...                       ...if   ...  ...........
+
+so we enbed the name avatar of the model User in the response fetching in the model Profile.. so we have them as well going to
+/get with one token..
+WITH IT GOING TO GET /profile we receive back that
+{
+    "skills": [
+        "Assembly",
+        "Swim",
+        "Catching the tiket before is sold out"
+    ],
+    "_id": "5bdf4078c16fe71f50298d55",
+    "user": {
+        "_id": "5bdcd511f80cf020c0a8204e",
+        "name": "First Registration",
+        "avatar": "//www.gravatar.com/avatar/d71035d91d9a5eb6808a592c010ffd2d?s=200&r=pg&d=mm"
+    },
+    "handle": "firstregistration",
+    "status": "single",
+    "experience": [],
+    "infos": [],
+    "date": "2018-11-04T18:54:48.092Z",
+    "__v": 0,
+    "job": "job center office",
+    "website": "http://www.google.com"
+}

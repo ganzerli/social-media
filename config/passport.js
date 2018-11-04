@@ -14,8 +14,10 @@ module.exports = passport => {
   passport.use(
     new JwtStrategy(options, (jwt_payload, done) => {
       // will be used if specified in a specific route, protected route in users.js
-      User.findById(jwt_payload.id)
+      console.log(" \n JWT STRATEGY PAYLAD ''''''v \n \n", jwt_payload);
+      User.findById(jwt_payload.id) // in the payload when the password and email matches the payload recive also the id
         .then(user => {
+          // the id is used from findbyid method to get the user object
           if (user) {
             return done(null, user); // fiirst is a error.. here not any
           }

@@ -36,7 +36,7 @@ require("./config/passport")(passport);
 
 //use routes
 app.use("/api/users", users); // anithing that goes to api/items should refer to the items variable,... which is the file
-app.use("/api/posts", posts);
+app.use("/api/posts", posts); // use as route api/post the post file specified
 app.use("/api/profile", profile);
 
 // (run server) create a variable for the port to use, for using huroku
