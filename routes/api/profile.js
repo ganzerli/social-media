@@ -112,7 +112,7 @@ router.post(
 );
 
 //@route GET api/profile/handle
-//@description Get all
+//@description Get with handle
 //@access Public..
 router.get("/handle/:handle", (req, res) => {
   const errors = {};
@@ -233,6 +233,8 @@ router.post(
   }
 );
 
+///                    D  E    L   E    T   E                   R   O   U  T   E   S
+
 //@route        POST api/pofile/experiences/:exp_id
 //@description  delete experience from profile
 //@access       Private
@@ -276,6 +278,24 @@ router.delete(
         profileFound.save().then(updated => res.json(updated));
       })
       .catch(error => res.status(400).json(error));
+  }
+);
+
+////     D   E   L  E   T  E                P  R  O  F  I  L  E
+
+//@route        POST api/pofile/experiences/:exp_id
+//@description  delete experience from profile
+//@access       Private
+
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOneAndRemove({ user: req.user.id }).then(() => {
+      User.findOneAndRemove({ _id: req.user.id }).then(() =>
+        res.json({ success: true })
+      );
+    });
   }
 );
 
