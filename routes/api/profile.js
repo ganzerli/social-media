@@ -8,7 +8,7 @@ const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
 const validateProfileInput = require("../../validation/profile");
-
+const validateInfosInput = require("../../validation/infos");
 //@route GET api/test
 //@description Get all
 //@access Public.. for now .. should be private, now no autentication
@@ -116,17 +116,15 @@ router.post(
 //@access Public..
 router.get("/handle/:handle", (req, res) => {
   const errors = {};
-  console.log("hi");
   Profile.findOne({ handle: req.params.handle })
     .populate("user", ["name", "avatar"]) // populate the field user in Profile model with the fields ["a","b"] of its linked object
     .then(profileFound => {
-      console.log("hi2");
       if (!profileFound) {
         errors.noprofile = "no profile found for this user";
-        console.log("hi3");
+
         return res.status(404).json(errors);
       }
-      console.log("hi4");
+
       return res.json(profileFound); // if the profile is found we(server) send back the profile to the user
     })
     .catch(err => res.status(404).json(err));
@@ -175,4 +173,110 @@ router.get("/all", (req, res) => {
         .json({ profiles: "something went wrong fetching all profiles" })
     );
 });
+
+//@route        POST api/pofile/experiences
+//@description  add experincese
+//@access       Private
+
+router.post(
+  "/experiences",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const isEmpty = require("../../validation/is-empty");
+    if (isEmpty(req.body)) {
+      return res.status(404).json({ error: "no fields are filled in" });
+    } else if (isEmpty(req.body.title)) {
+      return res.status(404).json({ error: "title field is required" });
+    }
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      const newExperience = {
+        title: req.body.title,
+        environment: req.body.environment,
+        location: req.body.location,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+      profile.experiences.unshift(newExperience); // the field in the Profile model experience is an array of objects
+      // save the new array to the DB
+      profile.save().then(experiencesSaved => res.json(experiencesSaved)); // get back the new array
+    });
+  }
+);
+
+//@route        POST api/pofile/infos
+//@description  add experincese
+//@access       Private
+router.post(
+  "/infos",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateInfosInput(req.body);
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id }).then(foundProfile => {
+      const newInfo = {
+        school: req.body.school,
+        certificates: req.body.certificates,
+        field: req.body.field,
+        from: req.body.from,
+        to: req.body.to,
+        current: req.body.current,
+        description: req.body.description
+      };
+      foundProfile.infos.unshift(newInfo); // the field in the foundProfile model experience is an array of objects
+      // save the new array to the DB
+      foundProfile.save().then(newInfosSaved => res.json(newInfosSaved)); // get back the new array
+    });
+  }
+);
+
+//@route        POST api/pofile/experiences/:exp_id
+//@description  delete experience from profile
+//@access       Private
+
+router.post(
+  "/experiences/:exp_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profileFound => {
+        // getting an array of indexes;
+        const indexes = profileFound.experiences.map(ex => ex.id);
+
+        // find the index to remove
+        const matchedIndex = indexes.indexOf(req.params.exp_id);
+        // removing the index from array
+        profileFound.experiences.splice(matchedIndex, 1);
+        // save back
+        profileFound.save().then(updated => res.json(updated));
+      })
+      .catch(err => res.status(400).json(err));
+  }
+);
+
+//@route        POST api/pofile/infos/:inf_id
+//@description  delete experience from profile
+//@access       Private
+router.post(
+  "/infos/:inf_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profileFound => {
+        // getting an array of indexes;
+        const indexes = profileFound.infos.map(inf => inf.id);
+        // find the index to remove
+        const matchedIndex = indexes.indexOf(req.params.inf_id);
+        // removing the index from array
+        profileFound.infos.splice(matchedIndex, 1);
+        // save back
+        profileFound.save().then(updated => res.json(updated));
+      })
+      .catch(error => res.status(400).json(error));
+  }
+);
+
 module.exports = router;

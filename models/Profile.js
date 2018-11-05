@@ -34,7 +34,7 @@ const ProfileSchema = new Schema({
   githubusername: {
     type: String
   },
-  experience: [
+  experiences: [
     {
       title: {
         type: String,
@@ -50,7 +50,8 @@ const ProfileSchema = new Schema({
         type: Date
       },
       to: {
-        type: Date
+        type: Date,
+        default: Date.now
       },
       current: {
         type: Boolean,
@@ -70,7 +71,8 @@ const ProfileSchema = new Schema({
         type: String
       },
       field: {
-        type: String
+        type: String,
+        required: true
       },
       from: {
         type: Date
@@ -83,7 +85,8 @@ const ProfileSchema = new Schema({
         default: false
       },
       description: {
-        type: String
+        type: String,
+        required: true
       }
     }
   ],

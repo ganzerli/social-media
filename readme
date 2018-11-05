@@ -12,7 +12,7 @@ config has the keys, -- for mongo etc...
 users.js has to do with autentication , profile all stuff in the site.
 .. the routes are used in the server.js   ROUTES ARE MANAGIG THE JSON 
 
-USING EXPRESS routers to us more files one for each resources, (users, posts ,profile)
+USING EXPRESS routers to us more files one for each resources, (users, posts ,profile) .. 
 
 //THE PORPOSE OF THE BACKEND  AND ROUTES::: IS SERVING JSON TO PICK FROM TEH FRONTEND
 
@@ -195,3 +195,17 @@ WITH IT GOING TO GET /profile we receive back that
     "job": "job center office",
     "website": "http://www.google.com"
 }
+
+routes for infos and experiences are a bit different because those types are arrays
+-first a check for requested fields, then findOne, in Profile Schema search where the field user has the id of the req.user,
+searches the right id of this logged in user in the table Profile, finding a metching profile,
+creating an object, filling it with all the fields in the form, and unshift this object in the array profile.infos
+Profile.findOne({ user: req.user.id }).then(profile => { .... ....  ... profile.infos.unshift(newInfo); new info is the object created ..={a:1,b:2, ...}
+
+routes experiences and infos have theitr own route to fill the array field, part of the profile object
+- they are updating the array and save it back to teh DB
+
+adding experiences and infos is also handy to have delete them, or delete profile and all..
+
+trying with filter i had ab bad time to remove an item from the array, then first is needed to findthe index and then act on the array directly
+, so just saving back the same array less the selected item..
