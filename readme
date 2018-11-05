@@ -209,3 +209,74 @@ adding experiences and infos is also handy to have delete them, or delete profil
 
 trying with filter i had ab bad time to remove an item from the array, then first is needed to findthe index and then act on the array directly
 , so just saving back the same array less the selected item..
+
+/////////////7   J  U  S   T                       R   E  M  E  M     B  E  R 
+
+JWT PUTS THE USER IN THE REQUEST ::: A CONSOLE:LOG OF REQ
+
+ body:
+   { text: 'this post has only the text.. lets see how is the db' },
+  _body: true,
+  length: undefined,
+  _passport:
+   { instance:
+      Authenticator {
+        _key: 'passport',
+        _strategies: [Object],
+        _serializers: [],
+        _deserializers: [],
+        _infoTransformers: [],
+        _framework: [Object],
+        _userProperty: 'user',
+        _sm: [SessionManager],
+        Authenticator: [Function: Authenticator],
+        Passport: [Function: Authenticator],
+        Strategy: [Function],
+        strategies: [Object] } },
+  route:
+   Route {
+     path: '/',
+     stack: [ [Layer], [Layer] ],
+     methods: { post: true } },
+  user:
+   { date: 2018-11-02T22:48:05.949Z,
+     _id: 5bdcd585f80cf020c0a8204f,
+     name: 'Second Registration',
+     email: 'secondregistration@yahoo.com',
+     avatar:
+      '//www.gravatar.com/avatar/23ebedb1e55447af6a00bb136bd6fda1?s=200&r=pg&d=mm',
+     password:
+      '$2a$10$DtyMUMeatD9SUFH87ptFBOI8MeqjrnJ/tcR1rZFAYYUnLhPeHylua',
+     __v: 0 },
+  authInfo: {} }
+
+
+
+//////   P  O   S   T 
+
+    POSTS   has a own schema in the models
+    -- see the in posts.js the new Post from the post schema.. name and avatr and user are from the body, in react with rdux will be pulled this datas from the strategy
+... this is a nice method..
+router.delete(
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profileFound => {
+      // we needto chech that hiitng this route the user deleting is the user of the post
+      Post.findById(req.params.id)
+        .then(post => {
+          if (post.user.toString() !== req.user.id) {
+            return res.status(401).json({
+              noautorization: "user is not autorized..   calling the cops..."
+            });
+          }
+          post.remove().then(() => res.status(404).json({ success: true }));
+        })
+        .catch(err => res.status(404).json({ postnotfound: "POST NOT FOUND" }));
+    });
+  }
+);
+
+
+..LIKES HAVE A ROUTE TO HIT THE LIKES AND ASO TO REMOVE them
+.. posts routes are tricky but also heavely commented..

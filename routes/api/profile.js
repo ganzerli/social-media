@@ -184,9 +184,9 @@ router.post(
   (req, res) => {
     const isEmpty = require("../../validation/is-empty");
     if (isEmpty(req.body)) {
-      return res.status(404).json({ error: "no fields are filled in" });
+      return res.status(400).json({ error: "no fields are filled in" });
     } else if (isEmpty(req.body.title)) {
-      return res.status(404).json({ error: "title field is required" });
+      return res.status(400).json({ error: "title field is required" });
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newExperience = {
