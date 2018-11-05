@@ -237,7 +237,7 @@ router.post(
 //@description  delete experience from profile
 //@access       Private
 
-router.post(
+router.delete(
   "/experiences/:exp_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
@@ -260,7 +260,7 @@ router.post(
 //@route        POST api/pofile/infos/:inf_id
 //@description  delete experience from profile
 //@access       Private
-router.post(
+router.delete(
   "/infos/:inf_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
