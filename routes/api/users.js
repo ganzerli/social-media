@@ -62,7 +62,7 @@ router.post("/register", (req, res) => {
           newUser
             .save()
             .then(userCreated => res.json(userCreated)) //that is the response from the server
-            .catch(err => console.log(err)); //          //in mlab.clm the mongoDb has the new
+            .catch(err => res.json(err)); //          //in mlab.clm the mongoDb has the new
         }); //                                           //record as the user get registered
       }); //                                             //and here is the response given back
     } //end if                                          //res.json(userCreated)

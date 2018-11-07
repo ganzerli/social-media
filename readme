@@ -280,3 +280,75 @@ router.delete(
 
 ..LIKES HAVE A ROUTE TO HIT THE LIKES AND ASO TO REMOVE them
 .. posts routes are tricky but also heavely commented..
+
+
+the POSTSCAN BE COMMENTED::
+and comment deleted, for to delete acomment is needed the post id to search it and then the id of the comment to remove
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            B   A    C   K       E    N    D          D    O    N   E        
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+============================}}>   PROCEEDING TO         F    R    O    N    T            E  N   D
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+to access to the routes of the backend more easly in the package. json a "proxy" value is added
+concurrentyly is installed as dependencie in the root folder, server..
+in the package.json a scriüt is added in "scripts" , to direcly lounch the app when deployed and cloned the user donesnt have to
+go to the folder client, in the scripts i package.json a client-install field is created. so to go in the folder first and start with one command
+
+if one want to just run the client there is too and dev is for concurrentyly to run both server and client
+
+router is imported in the app main component and the links components point to the specified routes with route components in main app component
+component form and register ar set up so that the events are right 
+onSubmit an onChange
+
+axios !! in the route taken by axios of register from the post method give us the  .then(userCreated => res.json(userCreated)) 
+so we can address on it in front end by axoios as res.data
+catch error also in axios front end. with  proxy http500 is skipped
+!!! WITH CLASSNAMES package WE CAN HAVE CONDITIONAL CLASSNAMES  !!!
+classnames("form-control form-control-lg", {
+                        "is-invalid": errors.name
+                      })
+                      /*the class is-invalid only if there is a errors.name */
+with classnames we can give conditioonal classames,
+the errors var is created from the state, and the sate get updtated with the response got from the backend, if the response gives a . name
+
+ const { errors, isValid } = validateRegistrationInput(req.body)
+  return res.status(400).json({ errors });
+
+  !! THE CUSTOM ERROS CAN BE USED HERE !!
+   console.log(err.response.data); we can se the errors
+   ------------------------------------------------------
+   {errors: {…}}
+errors:
+email: "email field is required"
+name: "the field name is required"
+password: "password field is required"
+  THIS IS THE RESPONSE OF THE CONSOLE
+  --------------------------------------------------------
+  
+  in jsx in register : 
+  {errors.name && (
+<div className="invalid-feedback">{errors.name}</div>)}
+   ------- under the -->  className={..classnames("fo...}
+ classnames("form-control form-control-lg", {
+                        "is-invalid": errors.password
+                      })
+--redux:
+the store exists as sonn is
+const store = createStore(()=>[],{},applyMidleware());
+like that does not throw an error.
+
+ACTIONS redux is all ACTIONS
+IF WE WANT TO DISAPTCH AN SOMETHING TO THE REDUCER; ACTION WE CAN SIMPLY RETURN AN OBJECT THAT  M U S T    H A V E    A    T Y P E
+THE FUNCTION IN ACTIONS IS AN ACTIN CREATOR.
+
+the action can be called for example in submit,
+exporting the component in for redux we have to bind the action andthe map state to props..
+the actin can be called also without the map>State to props..
+and the state in redux cev tools get updated

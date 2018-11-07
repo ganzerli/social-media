@@ -131,4 +131,74 @@ router.post(
   }
 );
 
+//@route    POST api/posts/comment/:id
+//@desc     Add comment to a Post
+//@access   Private
+
+router.post(
+  "/comment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // validation
+
+    const isEmpty = require("../../validation/is-empty");
+    // just see if the req.body itself is empty
+    if (isEmpty(req.body)) {
+      return res.status(400).json({ error: "no fields are filled in" });
+    } else if (isEmpty(req.body.text)) {
+      // if is not empty the body, but is empty the only required field
+      return res.status(400).json({ error: "text field is required" });
+    }
+
+    Post.findById(req.params.id)
+      .then(post => {
+        const newComment = {
+          text: req.body.text,
+          name: req.body.name,
+          avatar: req.body.avatar,
+          user: req.user.id
+        };
+
+        // Add to comments array
+        post.comments.unshift(newComment);
+        //save
+        post.save().then(savedPost => res.json(savedPost));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+//@route    DELETE api/posts/comment/:id/:comment_id
+//@desc     Remove commentfrom a Post
+//@access   Private
+
+router.delete(
+  "/comment/:id/:comment_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Post.findById(req.params.id)
+      .then(post => {
+        //check to see if the comment exists
+        const filteredComment = post.comments.filter(
+          comment => comment._id.toString() === req.params.comment_id
+        ); // leave the only one commnet having the _id same as what is in the pramenter
+        if (filteredComment.length < 1) {
+          //comment deleting does not exists
+          return res.status(404).json({ nocomment: "comment does not exist" });
+        } else {
+          // if there is get the ids
+          const commentIds = post.comments.map(comment =>
+            comment._id.toString()
+          );
+          // see in where index is the value same as the parameter
+          const indexOfMatchedId = commentIds.indexOf(req.params.comment_id);
+          // having the index directly take the record away from the array of comments
+          post.comments.splice(indexOfMatchedId, 1);
+          post.save().then(savedPost => res.json(savedPost));
+        }
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
 module.exports = router;
