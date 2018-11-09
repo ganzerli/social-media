@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import classnames from "classnames";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+
 import { registerUser } from "../../actions/authActions";
+import TextFieldGroup from "../../components/common/TextFieldGroup";
+import { PropTypes } from "prop-types";
 
 class Register extends Component {
   constructor() {
@@ -18,119 +22,72 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  // the last .errors is the obj of the backend
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.err) {
+      // here the prop is taken form the state which is an object with an object from the backend
+      this.setState({ errors: nextProps.err });
+    }
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   onSubmit(e) {
     e.preventDefault();
-
+    //preventing, and creating an obj for user data
     const newUser = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2
     };
-    this.props.registerUser(newUser);
-    /*
-    axios
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res.data))
-      .catch(err => {
-        this.setState({ errors: err.response.data.errors });
-      }); */
+    //user is filled and sent, dispatched to the reducer
+    this.props.registerUser(newUser, this.props.history);
+    //alloew us to redirect to another page between the action!!
   }
 
   render() {
     const { errors } = { ...this.state };
     // const errors = this.state.errors;
-
+    console.log(errors);
     return (
       <div className="register">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 glow text-center">Sign Up</h1>
-              <p className="lead text-center ">
-                Create your DevConnector account
-              </p>
+              <p className="lead text-center ">Create your account !</p>
               <form onSubmit={this.onSubmit}>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className={
-                      classnames("form-control form-control-lg", {
-                        "is-invalid": errors.name
-                      })
-                      /*the class is-invalid only if there is a errors.name */
-                    }
-                    placeholder="Name"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.onChange}
-                  />
-                  {errors.name && (
-                    <div className="invalid-feedback">{errors.name}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className={
-                      classnames("form-control form-control-lg", {
-                        "is-invalid": errors.email
-                      })
-                      /*the class is-invalid only if there is a errors.name */
-                    }
-                    placeholder="Email Address"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChange}
-                  />
-                  {errors.email && (
-                    <div className="invalid-feedback">{errors.email}</div>
-                  )}
-                  <small className="form-text text-muted">
-                    This site uses Gravatar so if you want a profile image, use
-                    a Gravatar email
-                  </small>
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className={
-                      classnames("form-control form-control-lg", {
-                        "is-invalid": errors.password
-                      })
-                      /*the class is-invalid only if there is a errors.name */
-                    }
-                    placeholder="Password"
-                    name="password"
-                    value={this.state.password}
-                    onChange={this.onChange}
-                  />
-                  {errors.password && (
-                    <div className="invalid-feedback">{errors.password}</div>
-                  )}
-                </div>
-                <div className="form-group">
-                  <input
-                    type="password"
-                    className={
-                      classnames("form-control form-control-lg", {
-                        "is-invalid": errors.password2
-                      })
-                      /*the class is-invalid only if there is a errors.name */
-                    }
-                    placeholder="Confirm Password"
-                    name="password2"
-                    value={this.state.password2}
-                    onChange={this.onChange}
-                  />
-                  {errors.password2 && (
-                    <div className="invalid-feedback">{errors.password2}</div>
-                  )}
-                </div>
+                <TextFieldGroup
+                  name="name"
+                  type="name"
+                  placeholder="insert your name"
+                  onChange={this.onChange}
+                  error={errors.name}
+                />
+                <TextFieldGroup
+                  name="email"
+                  type="email"
+                  placeholder="insert your email"
+                  onChange={this.onChange}
+                  error={errors.email}
+                  info="This site uses Gravatar, using a gravatar email your image will show here"
+                />
+                <TextFieldGroup
+                  name="password"
+                  type="password"
+                  placeholder=" password"
+                  onChange={this.onChange}
+                  error={errors.password}
+                />
+                <TextFieldGroup
+                  name="password2"
+                  type="password"
+                  placeholder="insert your password2"
+                  onChange={this.onChange}
+                  error={errors.password2}
+                />
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
             </div>
@@ -140,7 +97,20 @@ class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  err: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  // get the infos from a reducer and access it fro this.props
+  auth: state.authorization, // authorisation reducer put the state in auth prop
+  err: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { registerUser }
-)(Register);
+)(withRouter(Register));

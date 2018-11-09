@@ -3,7 +3,7 @@ const isEmpty = require("./is-empty");
 
 module.exports = function validateRegistrationInput(data) {
   let errors = {};
-  console.log(data);
+
   if (isEmpty(data)) {
     errors.name =
       "check the request, the body could be an empty object if the request is not right";

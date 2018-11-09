@@ -351,4 +351,54 @@ THE FUNCTION IN ACTIONS IS AN ACTIN CREATOR.
 the action can be called for example in submit,
 exporting the component in for redux we have to bind the action andthe map state to props..
 the actin can be called also without the map>State to props..
-and the state in redux cev tools get updated
+and the state in redux cev tools get updated.
+once the form is  submitted if an errors comes back handy is to have an errors reducer
+-- in the component must be brought in the 
+brought in the root reducer the error reducer, we cn get errors from props
+action calls dispatch, in axios, in case of errors it dispatch the error object to the root reducer with a type of GET_ERR, the errReducer takes in the GET_ERR type and returns the payload to the state... the state get updated and so we can use it pulling it from the props in the front end..
+a bit more asynch is also use component will receive props method which runs at that time,
+the error action can be put there so if the props coming from the state have an err object
+we can diplay it after the form is submit
+with the errors we can hold them in the component state so that the form works as it was before
+
+
+in the compnent is imported  with router and bound in the connect part  exporting, 
+in the action and in the acition call is needed to addd the this.props.history taht we can put as second paramenter in the action call so in the action if success the page will be redirected to the specific page page we give  
+
+
+we need to store the token in the local storage
+-- WITH AXIOS WE CAN S SET A TOKEN AND USE IT FOR EVERY REQUEST IN PROTECTED ROUTES
+
+see      setAuthToken()   and setAuthToken.js 
+the token has the infos of the user, to decode that jwt token, install
+npm in the client npm install jwt-decode
+
+the token is decoded and sent to the reducer, the reducer takes the datas inside and uüdates the state, if success then we are redirect to the dashboard, to keep the state also with page refresh in the app. js is a bit the same like the registration, but checks in the local storage, if there is then sets it as header and dispatches the action to update the user state and the isvalid of the auth reducer...
+.. log out
+
+the navbar should use redux so to show the right options
+the components which has to do with the access are not accessible if the user is logged insee the componentwillReceiveProps,see login js and or landing.
+input filds are put inside of custom components..
+
+the input fiellds are cut out and put in a custom component that takes the propertyes for the input a function on change and the right eror to show in the formin case
+
+follow up in profile reducer to remember well..
+profile in reducers and imported in the root reducer, after created base profile reducer type and action get created, in profile action will be 
+get current profile just dispatcehes the type and the profile object, if there is no profile for this user the object is empty
+sot  that in case the user can make a profile from there.. the reducer when the action is there sets loading back again and the profile  to the state
+ a dashboard dierctory is in the component the first part dashboard.js is imported in app js as route
+
+ THE CLEARcURRENT profile get called to log out and the user object in the state get set back to null-
+ !! ONLY IF LOGGING IN NO PROFILE IN THE DB,  THE PROFILE OBJECT WILL BE AN EMPTY OBJECT
+ !! ONLY IN LOG OUT THE PROFILE OBJECT GET SET TO NULL AGAIN:
+ clearCurrentProfile should is not only inthe navbar but also in ap.js to check if the user has the token in the localtorage..
+ so if the token is expired the profile is bak to null
+
+ in the dashboard when componentDidMount we need the user from the auth reducer and the profile from the profileRedicer
+ -- Object.keys(profile).length > 0    to see if an objec tis empty
+
+ .... if  the someone tryes to accss a private route then we have to manage first that
+
+ in the create profile.js all the input are cistom component that takes the props to get the part of conditional class away and have all more understandable
+ .. once the submit is hit the createprofile action takes the data and also the - history - to redirect to anpther page
+ the component hosting that capability must be bound with with router at the export
