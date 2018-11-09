@@ -184,9 +184,9 @@ router.post(
   (req, res) => {
     const isEmpty = require("../../validation/is-empty");
     if (isEmpty(req.body)) {
-      return res.status(400).json({ error: "no fields are filled in" });
+      return res.status(400).json({ errors: "no fields are filled in" });
     } else if (isEmpty(req.body.title)) {
-      return res.status(400).json({ error: "title field is required" });
+      return res.status(400).json({ errors: "title field is required" });
     }
     Profile.findOne({ user: req.user.id }).then(profile => {
       const newExperience = {
@@ -198,6 +198,9 @@ router.post(
         current: req.body.current,
         description: req.body.description
       };
+      isEmpty(newExperience.to)
+        ? (newExperience.to = Date.now())
+        : newExperience.to;
       profile.experiences.unshift(newExperience); // the field in the Profile model experience is an array of objects
       // save the new array to the DB
       profile.save().then(experiencesSaved => res.json(experiencesSaved)); // get back the new array
@@ -226,6 +229,11 @@ router.post(
         current: req.body.current,
         description: req.body.description
       };
+      // check that value of to is not null.. probably better..
+      const isEmpty = require("../../validation/is-empty");
+      isEmpty(newInfo.to) ? (newInfo.to = Date.now()) : newInfo.to;
+      // put it in the array
+
       foundProfile.infos.unshift(newInfo); // the field in the foundProfile model experience is an array of objects
       // save the new array to the DB
       foundProfile.save().then(newInfosSaved => res.json(newInfosSaved)); // get back the new array

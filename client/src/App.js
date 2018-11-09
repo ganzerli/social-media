@@ -10,6 +10,9 @@ import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddExperiences from "./components/add-credential/AddExperiences";
+import AddInfos from "./components/add-credential/AddInfos";
+
 import store from "./store";
 import { setCurrentUser, logOut } from "./actions/authActions";
 import { clearCurrentProfile } from "./actions/profileActions";
@@ -69,6 +72,16 @@ class App extends Component {
                 path="/edit-profile"
                 component={EditProfile}
               />
+            </Switch>
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/add-experiences"
+                component={AddExperiences}
+              />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/add-infos" component={AddInfos} />
             </Switch>
           </div>
           <Footer />

@@ -446,3 +446,26 @@ in EditProfile we need to bring in the getCurrentProfile action.. to rn in the c
 
 for everyp  field in the edit profile we need to see if un the state there is an object profile get the infos from all that fields
 and if they are nothing put have them an empty string
+
+AddExperiences when submit it redirects so it needs with router, and to see if somethinfg is already there the profile so we can check for the experiences
+-- experiences in the db and in the server are array
+the checkbox when checked toggles the state of disabled for the field to and the state of if the checkbox is checked itself
+---onCheck(e) {
+    this.setState({
+      disabled: !this.state.disabled,
+      current: !this.state.current
+---});}
+
+like every form this will  when submit call the redux action that hit the apy crreated and add the fields in the db.. as array
+will be called when the form is submit, thre we need to get the data from the state.
+
+ this.props.addExperiences(experiencesData,this.props.history());     ===>> calling the action, received from props imorted and given to connect,
+ we need to pass in the this.props.history() so we can dispatch and redirect in the action directly
+ --    THIS IS THANKS TO WITH ROUTER ---  so we just import, attach to the connect, and in the run of the action we can redirect 
+
+ so we can do in the action:
+   axios
+    .post("/api/profile/experiences")
+    .then(res => history.push("/dashboard"));
+
+// the route for the infos is a kind of the same like the speriences.

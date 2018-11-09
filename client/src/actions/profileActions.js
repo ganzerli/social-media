@@ -41,6 +41,50 @@ export const createProfile = (profileData, history) => dispatch => {
     );
 };
 
+// add experience action
+export const addExperiences = (experiencesData, history) => dispatch => {
+  axios
+    .post("/api/profile/experiences", experiencesData)
+    .then(res => history.push("/dashboard"))
+    .catch((
+      err // our status(404)
+    ) =>
+      dispatch({
+        type: GET_ERRORS, // so we fill the state in the reducer and the component will receive props
+        payload: err.response.data
+      })
+    );
+};
+
+// add general infos action
+export const addInfos = (infosData, history) => dispatch => {
+  axios
+    .post("/api/profile/infos", infosData)
+    .then(res => history.push("/dashboard"))
+    .catch((
+      err // our status(404)
+    ) =>
+      dispatch({
+        type: GET_ERRORS, // so we fill the state in the reducer and the component will receive props
+        payload: err.response.data
+      })
+    );
+};
+
+// send loading action
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
+  };
+};
+
+// clear current profile
+export const clearCurrentProfile = () => {
+  return {
+    type: CLEAR_CURRENT_PROFILE
+  };
+};
+
 // dleete profile
 export const deleteAccount = () => dispatch => {
   // dispatch to make axios request
@@ -62,18 +106,4 @@ export const deleteAccount = () => dispatch => {
         })
       );
   }
-};
-
-// send loading action
-export const setProfileLoading = () => {
-  return {
-    type: PROFILE_LOADING
-  };
-};
-
-// clear current profile
-export const clearCurrentProfile = () => {
-  return {
-    type: CLEAR_CURRENT_PROFILE
-  };
 };

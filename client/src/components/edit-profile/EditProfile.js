@@ -164,18 +164,18 @@ class EditProfile extends Component {
             error={errors.facebook}
           />
           <InputGroup
-            placeholder="facebook Profile URL"
-            name="facebook"
-            icon="fab fa-facebook"
-            value={this.state.facebook}
+            placeholder="instagram Profile URL"
+            name="instagram"
+            icon="fab fa-instagram"
+            value={this.state.instagram}
             onChange={this.onChange}
-            error={errors.facebook}
+            error={errors.instagram}
           />
           <InputGroup
             placeholder="github Profile URL"
             name="githubusername"
             icon="fab fa-github"
-            value={this.state.github}
+            value={this.state.githubusername}
             onChange={this.onChange}
             error={errors.github}
           />
@@ -184,11 +184,11 @@ class EditProfile extends Component {
     }
 
     const options = [
-      { label: this.state.status, value: this.state.status },
-      { label: "Single", value: "single" },
-      { label: "Married", value: "married" },
-      { label: "Open", value: "open" },
-      { label: "Other", value: "other" }
+      { label: "* Select one", value: 0 },
+      { label: "Single", value: "Single" },
+      { label: "Married", value: "Married" },
+      { label: "Open", value: "Open" },
+      { label: "Other", value: "Other" }
     ];
 
     return (

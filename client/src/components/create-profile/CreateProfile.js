@@ -128,10 +128,10 @@ class CreateProfile extends Component {
 
     const options = [
       { label: "* Select your status", value: 0 },
-      { label: "Single", value: "single" },
-      { label: "Married", value: "married" },
-      { label: "Open", value: "open" },
-      { label: "Other", value: "other" }
+      { label: "Single", value: "Single" },
+      { label: "Married", value: "Married" },
+      { label: "Open", value: "Open" },
+      { label: "Other", value: "Other" }
     ];
 
     return (
