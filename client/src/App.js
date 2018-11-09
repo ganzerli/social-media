@@ -12,6 +12,7 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperiences from "./components/add-credential/AddExperiences";
 import AddInfos from "./components/add-credential/AddInfos";
+import Profiles from "./components/profiles/Profiles";
 
 import store from "./store";
 import { setCurrentUser, logOut } from "./actions/authActions";
@@ -53,6 +54,7 @@ class App extends Component {
           <div className="container">
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/profiles" component={Profiles} />
 
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />

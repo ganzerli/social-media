@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import Spinner from "../common/Spinner";
-
-import { connect } from "react-redux";
 import { getCurrentProfile, deleteAccount } from "../../actions/profileActions";
 import ProfileActions from "./ProfileActions";
+import Experiences from "./Experiences";
+import Infos from "./Infos";
 
 class Dashboard extends Component {
   onDeleteClick(e) {
@@ -37,7 +38,14 @@ class Dashboard extends Component {
               <Link to={`/profile/${profile.handle}`} />
             </p>
             <ProfileActions />
-            <div style={{ marginBottom: "60px" }}>
+
+            <Experiences expArray={profile.experiences} />
+
+            {profile.infos.length > 0 ? (
+              <Infos infoArray={profile.infos} />
+            ) : null}
+
+            <div style={{ margin: "0 auto" }}>
               <button
                 className="btn btn-danger"
                 onClick={this.onDeleteClick.bind(this)}
@@ -67,6 +75,9 @@ class Dashboard extends Component {
           <div className="row">
             <div className="col-md-12">
               <h1 className="display-4"> Dashboard </h1>
+              <h2 style={{ fontSize: 16, color: "grey" }}>
+                WELCOME {user.name}
+              </h2>
               {dashboardContent}
             </div>
           </div>

@@ -469,3 +469,20 @@ will be called when the form is submit, thre we need to get the data from the st
     .then(res => history.push("/dashboard"));
 
 // the route for the infos is a kind of the same like the speriences.
+finished the forms we can show the eperiences in the dashboard
+to show the components handling the experiences we make a custom one and we pass the infos ready in the state, because profile is already there
+
+in the dashboard we already have -->  const { profile, loading } = this.props.profile;
+we can pass that as prop to the component <Experiences expArray={profile.experiences}/>
+this component will take the array and make a table with th data in it.
+
+in <Experiences/> we need withRouter because once deleted an experience there is a redirect to dashboard
+Moment package is a library to treat date
+
+the button get the id from the map function, deleteExperience action calls GET_PROFILE, so first is deleted, then we just get the new profile from the response, we dispatch the GET_PROFILE just to update the state after deleting.  ... AMAZING ...
+
+for the infos is kind of the same
+
+--- TO SEE ALL PROFILES A ROUTE TO PROFILES STAY NOT PROTECTED AND A PROFILES COMPONENT IS made
+calling the action getAllProfiles we get all profiles as an array , if an error comes we call the same action that set the state of profiles in th
+e profile reducer but sending an empty object as payload.. so in the /profiles the Profile component sayes just no profiles

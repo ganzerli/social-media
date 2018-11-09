@@ -2,6 +2,7 @@ import axios from "axios";
 
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
@@ -55,6 +56,25 @@ export const addExperiences = (experiencesData, history) => dispatch => {
       })
     );
 };
+// delete experience
+export const deleteExperience = id => dispatch => {
+  axios
+    .delete(`/api/profile/experiences/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch((
+      err // our status(404)
+    ) =>
+      dispatch({
+        type: GET_ERRORS, // so we fill the state in the reducer and the component will receive props
+        payload: err.response.data
+      })
+    );
+};
 
 // add general infos action
 export const addInfos = (infosData, history) => dispatch => {
@@ -67,6 +87,44 @@ export const addInfos = (infosData, history) => dispatch => {
       dispatch({
         type: GET_ERRORS, // so we fill the state in the reducer and the component will receive props
         payload: err.response.data
+      })
+    );
+};
+// delete info
+export const deleteInfo = id => dispatch => {
+  axios
+    .delete(`/api/profile/infos/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      })
+    )
+    .catch((
+      err // our status(404)
+    ) =>
+      dispatch({
+        type: GET_ERRORS, // so we fill the state in the reducer and the component will receive props
+        payload: err.response.data
+      })
+    );
+};
+
+//get all profiles
+export const getAllProfiles = () => dispatch => {
+  dispatch(setProfileLoading()); // asinc request to let know the reducerthe content will be loaded
+  axios
+    .get("/api/profile/all")
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: {} /// IF THERE IS NO PROFILE THE PROFILE IS AN EMPTY OBJECT
       })
     );
 };

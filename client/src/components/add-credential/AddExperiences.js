@@ -47,7 +47,6 @@ class AddExperiences extends Component {
       title: this.state.title,
       environment: this.state.environment,
       location: this.state.location,
-      current: this.state.current,
       description: this.state.description,
       current: this.state.current,
       from: this.state.from,
