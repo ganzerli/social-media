@@ -29,7 +29,7 @@ module.exports = function validateProfileInput(data) {
     errors.status = "status field is required";
 
   if (!isEmpty(data.website)) {
-    console.log("website", data.website);
+    // console.log("website", data.website);
     if (!Validator.isURL(data.website)) {
       errors.website = "the URL is not valid";
     }

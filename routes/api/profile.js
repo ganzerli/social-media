@@ -51,7 +51,7 @@ router.post(
   (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
 
-    if (!isValid) res.status(400).json(errors);
+    if (!isValid) return res.status(400).json(errors);
 
     const profileFields = {};
     // PAYLOAD OF PASSPORT HAS ALL THE USERS DATA N THE REQ

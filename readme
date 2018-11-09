@@ -402,3 +402,47 @@ sot  that in case the user can make a profile from there.. the reducer when the 
  in the create profile.js all the input are cistom component that takes the props to get the part of conditional class away and have all more understandable
  .. once the submit is hit the createprofile action takes the data and also the - history - to redirect to anpther page
  the component hosting that capability must be bound with with router at the export
+
+EDIT PROFILE: has a file in the components /edit-profile/EditProfile.js
+edit form will be same as ! ! ! ! -->>> CreatePorofile <<<<--- ! ! ! ! !but the fields that are already written in are automatically filled
+
+!! THE ROUTE IN THE BACKEND ACCEAP REQUESTS FOR CREATE AND UPDATE PROFILE IN THE SAME ROUTE
+    Profile.findOne({ user: req.user.id })
+      .then(profileObj => {
+        if (profileObj) {  ///=====>> if searching in the db for this user id in the profiles and there is just update..
+          //UPDATE
+          Profile.findOneAndUpdate(
+            { user: req.user.id },
+            { $set: profileFields },
+            { new: true }
+          ).then(profileUpdated => res.json(profileUpdated));
+        } else {
+          //CREATE
+          //check if the handle aready exists
+          Profile.findOne({ handle: profileFields.handle })
+            .then(profileObj => {
+              if (profileObj) {
+                // if there is a profile in the table-(collection), that has the same handle of the request..
+                errors.handle = "handle already exists";
+                return res.status(400).json(errors); // any validation errors 400
+              } else {
+                //if does not exist
+                new Profile(profileFields)
+                  .save()
+                  .then(profileSaved => res.json(profileSaved));   .............................
+
+in EditProfile we need to bring in the getCurrentProfile action.. to rn in the componentDidMount as the most ajax calls
+
+... every page showing must be imported in the App.js with the router so we have the route available , this with switch like the others (protected)
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/edit-profile"
+                component={EditProfile}
+              />
+            </Switch>
+
+            so it has a route
+
+for everyp  field in the edit profile we need to see if un the state there is an object profile get the infos from all that fields
+and if they are nothing put have them an empty string

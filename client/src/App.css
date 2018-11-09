@@ -18,6 +18,9 @@ img {
 .glow {
   animation: glow 0.2s ease-out 0.5s 2;
 }
+small.glow {
+  color: rgb(255, 106, 80) !important;
+}
 
 .landing-inner {
   padding-top: 80px;

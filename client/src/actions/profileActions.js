@@ -43,6 +43,7 @@ export const createProfile = (profileData, history) => dispatch => {
 
 // dleete profile
 export const deleteAccount = () => dispatch => {
+  // dispatch to make axios request
   if (
     window.confirm("are you shure to delete your account? cannot be undone")
   ) {

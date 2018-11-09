@@ -6,10 +6,11 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
+import isEmpty from "../../validation/is-empty";
 
-import { createProfile } from "../../actions/profileActions";
+import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 
-class CreateProfile extends Component {
+class EditProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,10 +35,66 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getCurrentProfile(); // so we have access to the object profile managed from the profile reducer
+  }
+
   componentWillReceiveProps(nextProps) {
+    // when submit if not redirect the component receive errors from the backend
     if (nextProps.errors) {
       // in mapState to poros is clalled errors
       this.setState({ errors: nextProps.errors });
+    }
+    // !! fill the fields already in the db with the related values
+    if (nextProps.profile.profile) {
+      // if in the profile state there is a prop called profile, see componentDidMount(){}
+      const profile = nextProps.profile.profile;
+      // translate the skills array back to string and commas
+      const skillsCSV = profile.skills.join(",");
+      // IF A FIELD IN THE PROFILE OBJECT DOES NOT EXIST MAKE AN EMPTY STRING -- SO WE HAVE a "" for to fill all the object, that then goes in the form
+      profile.job = !isEmpty(profile.job) ? profile.job : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+
+      //social is its own object
+      profile.social = !isEmpty(profile.social) ? profile.social : {}; // if so all the others are an empty string
+      // and every in profile.social. whatit is we can put in our object directly , so we cut out a level..
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+
+      // now we have an object with all the fields same as the state
+      this.setState({
+        website: profile.website,
+        location: profile.location,
+        status: profile.status,
+        skills: skillsCSV,
+        githubusername: profile.githubusername,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        job: profile.job,
+        bio: profile.bio,
+        linkedin: profile.linkedin,
+        handle: profile.handle,
+        youtube: profile.youtube,
+        instagram: profile.instagram
+      });
     }
   }
 
@@ -127,7 +184,7 @@ class CreateProfile extends Component {
     }
 
     const options = [
-      { label: "* Select your status", value: 0 },
+      { label: this.state.status, value: this.state.status },
       { label: "Single", value: "single" },
       { label: "Married", value: "married" },
       { label: "Open", value: "open" },
@@ -139,11 +196,11 @@ class CreateProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Create Your Profile</h1>
-              <p className="lead text-center">
-                Choose the set of your Profile!
-              </p>
-              <small className="d-block pb-3">* = required fields</small>
+              <h1 className="display-4 text-center">Edit Your Profile</h1>
+              <p />
+              <small className="d-block pb-3 glow" style={{ letterSpacing: 2 }}>
+                <b>*</b> = required fields
+              </small>
 
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -156,7 +213,6 @@ class CreateProfile extends Component {
                   info="enter wathever you want to show as end of your personal URL!"
                 />
                 <SelectListGroup
-                  placeholder="* status"
                   name="status"
                   value={this.state.status}
                   onChange={this.onChange}
@@ -194,7 +250,7 @@ class CreateProfile extends Component {
                 />
                 <TextFieldGroup
                   type="text"
-                  placeholder="what do u like to do?"
+                  placeholder=" * what do u like to do?"
                   name="skills"
                   value={this.state.skills}
                   onChange={this.onChange}
@@ -227,7 +283,7 @@ class CreateProfile extends Component {
                 </div>
                 <input
                   type="submit"
-                  value={"Create your" + errors + " profile!"}
+                  value={"E D I T"}
                   className={
                     "btn" +
                     (Object.keys(errors).length > 0
@@ -246,17 +302,19 @@ class CreateProfile extends Component {
   }
 }
 
-CreateProfile.PropTypes = {
+EditProfile.PropTypes = {
   profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  createProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  profile: state.profile,
+  profile: state.profile, /// the reducer profile, manages 3 objects in the state, --> profile:{} <<-- , profiles:null, loading:false
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { createProfile }
-)(withRouter(CreateProfile));
+  { createProfile, getCurrentProfile }
+)(withRouter(EditProfile));
