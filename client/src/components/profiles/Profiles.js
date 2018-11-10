@@ -17,7 +17,9 @@ class Profiles extends Component {
     if (profiles === null || loading) {
       profileItem = <Spinner />;
     } else if (profiles.length > 0) {
-      profileItem = <h4>profiles</h4>;
+      profileItem = profiles.map(oneProfile => (
+        <ProfileItem key={oneProfile.id} profile={oneProfile} />
+      ));
     } else {
       profileItem = <h2>No Profiles Found</h2>;
     }
@@ -29,7 +31,7 @@ class Profiles extends Component {
             <div className="col-md-12">
               <h1 className="display-4 text-center">
                 {" "}
-                Look Out For What You Like{" "}
+                Take a Look to Other Profiles{" "}
               </h1>
               <p className="lead text-center">
                 Browse and connect with the other people

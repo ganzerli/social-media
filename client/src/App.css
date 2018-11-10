@@ -18,6 +18,18 @@ img {
 .glow {
   animation: glow 0.2s ease-out 0.5s 2;
 }
+.card {
+  color: rgb(75, 95, 71);
+}
+
+.gradient-background {
+  background-image: linear-gradient(
+    to left bottom,
+    rgba(198, 255, 185, 0.8),
+    rgb(219, 247, 255, 0.7)
+  );
+}
+
 small.glow {
   color: rgb(255, 106, 80) !important;
 }
