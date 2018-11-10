@@ -6,11 +6,14 @@ const passport = require("passport");
 const Post = require("../../models/Post");
 const Profile = require("../../models/Profile");
 
-//@route GET api/Items
-//@description Get all
-//@access Public.. for now .. should be private, now no autentication
-router.get("/test", (req, res) => {
-  res.json({ msg: "nice outtpostpostposthere adfxgain" });
+// @route   GET api/posts
+// @desc    Get posts
+// @access  Public
+router.get("/", (req, res) => {
+  Post.find()
+    .sort({ date: -1 })
+    .then(posts => res.json(posts))
+    .catch(err => res.status(404).json({ nopostsfound: "No posts found" }));
 });
 
 //@route POST api/posts
@@ -24,19 +27,19 @@ router.post(
     const isEmpty = require("../../validation/is-empty");
     // just see if the req.body itself is empty
     if (isEmpty(req.body)) {
-      return res.status(400).json({ error: "no fields are filled in" });
+      return res.status(400).json({ errors: "no fields are filled in" });
     } else if (isEmpty(req.body.text)) {
       // if is not empty the body, but is empty the only required field
-      return res.status(400).json({ error: "text field is required" });
+      return res.status(400).json({ errors: "text field is required" });
     }
     // new post variable is mirrored in the post model
     const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
-      user: req.user.id
+      user: req.user.id // private routes have the user in the request
     });
-    console.log(req);
+    //console.log(req);
     newPost.save().then(post => res.json(post));
   }
 );
@@ -144,10 +147,10 @@ router.post(
     const isEmpty = require("../../validation/is-empty");
     // just see if the req.body itself is empty
     if (isEmpty(req.body)) {
-      return res.status(400).json({ error: "no fields are filled in" });
+      return res.status(400).json({ errors: "no fields are filled in" });
     } else if (isEmpty(req.body.text)) {
       // if is not empty the body, but is empty the only required field
-      return res.status(400).json({ error: "text field is required" });
+      return res.status(400).json({ errors: "text field is required" });
     }
 
     Post.findById(req.params.id)

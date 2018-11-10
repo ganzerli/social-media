@@ -481,8 +481,39 @@ Moment package is a library to treat date
 
 the button get the id from the map function, deleteExperience action calls GET_PROFILE, so first is deleted, then we just get the new profile from the response, we dispatch the GET_PROFILE just to update the state after deleting.  ... AMAZING ...
 
-for the infos is kind of the same
+for the infos is kind of the same..
+
 
 --- TO SEE ALL PROFILES A ROUTE TO PROFILES STAY NOT PROTECTED AND A PROFILES COMPONENT IS made
 calling the action getAllProfiles we get all profiles as an array , if an error comes we call the same action that set the state of profiles in th
 e profile reducer but sending an empty object as payload.. so in the /profiles the Profile component sayes just no profiles
+
+-With this we get only the first 4 items if there are any
+
+ {profile.skills.slice(0, 4).map((skill, index) => (
+                <li key={index} className="list-group-item">
+                  <i className="fa fa-puzzle-piece">
+                    {" "}
+                    {skill /** pr-1 is padding right 1 */}
+                  </i>
+first taking the first 4 then loop trought them and return the own values
+
+clicking on the button in the card the likn brings to="/profile/${handle}"
+then we need to view the profile from the URL
+
+the action is kind of the same as get current profile, if nothing found or error same action get called with null as payload ..
+in App.js needs a route too..
+called the action and just normally clicking in a link button of a card the handle of that user comes in the url and the state get updated, now user is the user that we were searching for,
+a route in App.js go to /profiles/:whatitis,and is passed to display the profile component,
+the button brings to profile/:handle, the component Profile when get mount searches from the handle
+for a profile sending the action.. so at did mount get the new state and has the new profile object
+
+when the router sees profile/something load the url and the component, the component get the url takes the handle and searches for one profile like that..
+
+for the infos and experiences the component just get the array and then maps all to the lists
+and it renders 2 columns col-md-6
+
+-.-.--.-.-.-
+
+!! P O S T S !!
+posts have a reducer handling the post stuff and the loading too..

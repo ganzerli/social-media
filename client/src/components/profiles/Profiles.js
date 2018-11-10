@@ -12,16 +12,16 @@ class Profiles extends Component {
 
   render() {
     const { profiles, loading } = this.props.profile;
-    let profileItem;
+    let profileItems;
 
     if (profiles === null || loading) {
-      profileItem = <Spinner />;
+      profileItems = <Spinner />;
     } else if (profiles.length > 0) {
-      profileItem = profiles.map(oneProfile => (
+      profileItems = profiles.map(oneProfile => (
         <ProfileItem key={oneProfile.id} profile={oneProfile} />
       ));
     } else {
-      profileItem = <h2>No Profiles Found</h2>;
+      profileItems = <h2>No Profiles Found</h2>;
     }
 
     return (
@@ -36,7 +36,7 @@ class Profiles extends Component {
               <p className="lead text-center">
                 Browse and connect with the other people
               </p>
-              {profileItem}
+              {profileItems}
             </div>
           </div>
         </div>

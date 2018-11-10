@@ -5,8 +5,10 @@ import isEmpty from "../../validation/is-empty";
 
 class ProfileItem extends Component {
   render() {
-    const { profile } = this.props;
-
+    const { profile } = this.props; // prop passed is profile
+    //profile.user.avatar is available because in the backend when
+    //Profile.find()
+    //.populate("user", ["avatar", "name"])    --> that let us pick up the user infos passed
     return (
       <div className="card gradient-background card-body mb-3">
         <div className="row">
@@ -17,16 +19,19 @@ class ProfileItem extends Component {
           <div className="col-lg-6 col-md-4 col-8">
             <h3>{profile.user.name}</h3>
             <ul style={{ listStyle: "none", paddingLeft: 0 }}>
-              <li>{profile.status}</li>
               {isEmpty(profile.job) ? null : <li>At: {profile.job}</li>}
               {isEmpty(profile.bio) ? null : <li> {profile.bio}</li>}
               {isEmpty(profile.website) ? null : <li> {profile.website}</li>}
               {isEmpty(profile.location) ? null : <li> {profile.location}</li>}
+              <li>{profile.status}</li>
             </ul>
 
             <small>{isEmpty(profile.location) ? null : profile.location}</small>
             <p>
-              <Link to={`/profile/${profile.handle}`} className="btn btn-info">
+              <Link
+                to={`/profile/${profile.handle}`}
+                className="btn bg-light text-warning font-weight-bold"
+              >
                 Wiev profile
               </Link>
             </p>

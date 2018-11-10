@@ -1,6 +1,15 @@
 img {
   width: 100%;
 }
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid rgba(100, 100, 100, 0.1);
+  border-top: none;
+}
 
 .landing {
   position: relative;
@@ -19,7 +28,7 @@ img {
   animation: glow 0.2s ease-out 0.5s 2;
 }
 .card {
-  color: rgb(75, 95, 71);
+  color: rgb(55, 71, 51);
 }
 
 .gradient-background {

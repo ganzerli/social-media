@@ -21,7 +21,7 @@ module.exports = function validateInfosInput(data) {
     errors.field = "in which field is required";
 
   if (!Validator.isEmpty(data.description)) {
-    if (!Validator.isLength(data.description, { min: 2, max: 200 })) {
+    if (!Validator.isLength(data.description, { min: 2, max: 500 })) {
       errors.description = "description must be between 2 and 200 characters";
     }
   } else if (Validator.isEmpty(data.description)) {

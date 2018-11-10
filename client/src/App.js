@@ -13,6 +13,8 @@ import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperiences from "./components/add-credential/AddExperiences";
 import AddInfos from "./components/add-credential/AddInfos";
 import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
 
 import store from "./store";
 import { setCurrentUser, logOut } from "./actions/authActions";
@@ -22,6 +24,7 @@ import setAuthToken from "./util/setAuthToken";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import "./App.css";
+import PostForm from "./components/posts/PostForm";
 
 // check if there is a token
 if (localStorage.jwtToken) {
@@ -55,6 +58,7 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profiles" component={Profiles} />
+            <Route exact path="/profile/:handle" component={Profile} />
 
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
@@ -84,6 +88,9 @@ class App extends Component {
             </Switch>
             <Switch>
               <PrivateRoute exact path="/add-infos" component={AddInfos} />
+            </Switch>
+            <Switch>
+              <PrivateRoute exact path="/posts" component={Posts} />
             </Switch>
           </div>
           <Footer />

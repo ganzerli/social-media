@@ -49,11 +49,12 @@ router.post("/register", (req, res) => {
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        avatar,
+        avatar, // this const up here
         password: req.body.password
-      }); //num of chars 10
+      }); //an id will be added from the db
 
       bcrypt.genSalt(10, (err, salt) => {
+        // 10 chars
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) {
             throw err;
