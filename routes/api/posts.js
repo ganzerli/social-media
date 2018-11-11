@@ -53,15 +53,17 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Profile.findOne({ user: req.user.id }).then(profileFound => {
-      // we needto chech that hiitng this route the user deleting is the user of the post
+      // if he has a profile
+      // we needto chech if the user deleting is the owner of the post
       Post.findById(req.params.id)
         .then(post => {
           if (post.user.toString() !== req.user.id) {
             return res.status(401).json({
-              noautorization: "user is not autorized..   calling the cops..."
+              noautorization: "user is not autorized.."
             });
+          } else {
+            post.remove().then(() => res.json({ success: true }));
           }
-          post.remove().then(() => res.status(404).json({ success: true }));
         })
         .catch(err => res.status(404).json({ postnotfound: "POST NOT FOUND" }));
     });

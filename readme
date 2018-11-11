@@ -517,3 +517,8 @@ and it renders 2 columns col-md-6
 
 !! P O S T S !!
 posts have a reducer handling the post stuff and the loading too..
+the delete action just returns the new array in the state with profiles 
+the server needs an id
+
+-- for to comment a route for the Post is made , there will be loaded the single post
+with a form to comment that post..

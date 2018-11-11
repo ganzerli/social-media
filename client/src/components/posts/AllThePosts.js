@@ -12,6 +12,6 @@ class AllThePosts extends Component {
   }
 }
 AllThePosts.propTypes = {
-  posts: PropTypes.array.isRequired
+  postsArray: PropTypes.array.isRequired
 };
 export default AllThePosts;
