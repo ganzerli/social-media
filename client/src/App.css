@@ -10,7 +10,9 @@ img {
   border: 1px solid rgba(100, 100, 100, 0.1);
   border-top: none;
 }
-
+.turned {
+  transform: rotate(-90deg);
+}
 .landing {
   position: relative;
   background: url("./img/showcase.jpg") no-repeat;

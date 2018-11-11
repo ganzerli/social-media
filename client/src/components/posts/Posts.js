@@ -6,6 +6,7 @@ import Spinner from "../common/Spinner";
 
 import { getPosts } from "../../actions/postActions";
 import PostForm from "./PostForm";
+import AllThePosts from "./AllThePosts";
 
 class Posts extends Component {
   componentDidMount() {
@@ -13,7 +14,9 @@ class Posts extends Component {
   }
 
   render() {
+    //getting the posts array
     const { posts, loading } = this.props.post;
+
     let content;
 
     if (posts === null) {
@@ -21,7 +24,7 @@ class Posts extends Component {
     } else if (loading) {
       content = <Spinner />;
     } else {
-      content = "a bucnh of posts"; //post feed;
+      content = <AllThePosts postsArray={posts} />; //post feed;
     }
 
     return (
