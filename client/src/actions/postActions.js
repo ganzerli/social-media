@@ -4,11 +4,13 @@ import {
   GET_ERRORS,
   GET_POSTS,
   POSTS_LOADING,
-  DELETE_POST
+  DELETE_POST,
+  GET_POST,
+  CLEAR_ERRORS
 } from "./types";
-import Posts from "../components/posts/Posts";
 
 export const addPost = post => dispatch => {
+  dispatch(clearErrors());
   axios
     .post("/api/posts", post)
     .then(res =>
@@ -89,6 +91,68 @@ export const removeLike = id => dispatch => {
         payload: err.response.data
       });
     });
+};
+
+export const getPost = id => dispatch => {
+  dispatch(postsLoading());
+  axios
+    .get(`/api/posts/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_POST,
+        payload: res.data // a single post found by id in Posts
+      })
+    )
+    .catch((
+      err // normally if no posts are in the collection
+    ) =>
+      dispatch({
+        type: GET_POST,
+        payload: null // no post
+      })
+    );
+};
+
+export const addComment = (id, comment) => dispatch => {
+  dispatch(clearErrors());
+  axios
+    .post(`/api/posts/comment/${id}`, comment)
+    .then(res =>
+      dispatch({
+        type: GET_POST,
+        payload: res.data // // ...res.json(savedPost));
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data //the text could be empty
+      })
+    );
+};
+
+export const deleteComment = (postId, commentId) => dispatch => {
+  axios
+    .delete(`/api/posts/comment/${postId}/${commentId}`)
+    .then(res =>
+      dispatch({
+        type: GET_POST,
+        payload: res.data // // ...res.json(savedPost));
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data //the text could be empty
+      })
+    );
+};
+
+//
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
+  };
 };
 
 // loading function

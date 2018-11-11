@@ -7,7 +7,7 @@ class AllThePosts extends Component {
   render() {
     const { postsArray } = this.props;
     return postsArray.map(singlePost => (
-      <OnePost key={singlePost._id} post={singlePost} />
+      <OnePost key={singlePost._id} post={singlePost} showButtons={true} />
     ));
   }
 }

@@ -13,7 +13,18 @@ router.get("/", (req, res) => {
   Post.find()
     .sort({ date: -1 })
     .then(posts => res.json(posts))
-    .catch(err => res.status(404).json({ nopostsfound: "No posts found" }));
+    .catch(err => res.status(404).json({ nopost: "There isn't any post yet" }));
+});
+
+// @route   GET api/posts/:id
+// @desc    Get post by id
+// @access  Public
+router.get("/:id", (req, res) => {
+  Post.findById(req.params.id)
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopost: "ID param not found for Post in DB" })
+    );
 });
 
 //@route POST api/posts
@@ -44,10 +55,9 @@ router.post(
   }
 );
 
-//@route DELETE api/post/
-//@description D
-//@access Public.. for now .. should be private, now no autentication
-
+//@route  DELETE api/post/:id
+//@desc   Delete a post
+//@access Private
 router.delete(
   "/:id",
   passport.authenticate("jwt", { session: false }),
@@ -69,10 +79,10 @@ router.delete(
     });
   }
 );
-//@route DELETE api/post/
-//@description DLETE
-//@access Public.. for now .. should be private, now no autentication
 
+//@route Post api/post/
+//@descr Like a comment
+//@access Private
 router.post(
   "/like/:id",
   passport.authenticate("jwt", { session: false }),

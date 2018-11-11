@@ -27,11 +27,51 @@ class OnePost extends React.Component {
   }
 
   render() {
-    const { post, auth, key } = this.props;
+    const { post, auth, key, showButtons } = this.props;
     // post comes as prof from the parent component who maps throught the array of profiles and returns directly all this stuff for every post
     if (post.name === "name name")
       post.avatar =
         "https://secure.gravatar.com/avatar/76e9c15052ad099a9054f909175df1d0?s=320";
+    let theButtons = (
+      <>
+        <button
+          type="button"
+          className="btn btn-light mr-1"
+          onClick={this.onLike.bind(this, post._id)}
+        >
+          <i
+            className={classnames("fas fa-thumbs-up", {
+              "text-success": this.findUserLiked(post.likes),
+              "text-warning": !this.findUserLiked(post.likes)
+            })}
+          />
+          <span className="badge badge-light">{post.likes.length}</span>
+        </button>
+        <button
+          type="button"
+          className="btn btn-light mr-1 turned"
+          onClick={this.onUnlike.bind(this, post._id)}
+        >
+          <i className="text-secondary fas fa-thumbs-down" />
+        </button>
+        <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
+          Comment
+        </Link>
+
+        {auth.user.id === post.user ? (
+          <button
+            type="button"
+            className="btn btn-danger mr-1"
+            onClick={this.onDeleteClick.bind(this, post._id)}
+          >
+            <i className="fas fa-times" />
+          </button>
+        ) : null}
+      </>
+    );
+    if (showButtons === false) {
+      theButtons = <></>;
+    }
     return (
       <div className="card card-body mb-3" key={"superkey" + key}>
         <div className="row">
@@ -50,39 +90,8 @@ class OnePost extends React.Component {
           </div>
           <div className="col-md-9">
             <p className="lead">{post.text}</p>
-            <button
-              type="button"
-              className="btn btn-light mr-1"
-              onClick={this.onLike.bind(this, post._id)}
-            >
-              <i
-                className={classnames("fas fa-thumbs-up", {
-                  "text-success": this.findUserLiked(post.likes),
-                  "text-warning": !this.findUserLiked(post.likes)
-                })}
-              />
-              <span className="badge badge-light">{post.likes.length}</span>
-            </button>
-            <button
-              type="button"
-              className="btn btn-light mr-1 turned"
-              onClick={this.onUnlike.bind(this, post._id)}
-            >
-              <i className="text-secondary fas fa-thumbs-down" />
-            </button>
-            <a href="#!" className="btn btn-info mr-1">
-              Comment
-            </a>
 
-            {auth.user.id === post.user ? (
-              <button
-                type="button"
-                className="btn btn-danger mr-1"
-                onClick={this.onDeleteClick.bind(this, post._id)}
-              >
-                <i className="fas fa-times" />
-              </button>
-            ) : null}
+            {theButtons}
           </div>
         </div>
       </div>

@@ -13,6 +13,10 @@ img {
 .turned {
   transform: rotate(-90deg);
 }
+.container,
+.card {
+  animation: appear 0.5s ease-out forwards;
+}
 .landing {
   position: relative;
   background: url("./img/showcase.jpg") no-repeat;
@@ -81,5 +85,13 @@ small.glow {
   100% {
     text-shadow: 0 0 20px rgb(21, 255, 0);
     color: rgb(49, 56, 80);
+  }
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

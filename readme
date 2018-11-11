@@ -520,5 +520,20 @@ posts have a reducer handling the post stuff and the loading too..
 the delete action just returns the new array in the state with profiles 
 the server needs an id
 
+in the posts the comment button i a link binging to /posts/${post._id}
+
+in the App.js a protected route goes to post/whatitis so in the post/_idwhatever 
+we can have _idwhatever from the parameter in the url
+if the post component has just hello inside then clicking to comment will bring us to the url
+post/the_idut5839484rzr302384rz  and just shows hello but the url has the param
+
 -- for to comment a route for the Post is made , there will be loaded the single post
 with a form to comment that post..
+
+once set the GET_POST type in reducer, and action getPost set in the component the redux part is ok
+- 
+like for the profile there is a component mapping throught the array of comments and map a component
+OneComment for every item in the Array.
+
+a very handy way to clear error instead to put them in the state and modify it only n the component
+is to make a CLEAR_ERRORS
