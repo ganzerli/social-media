@@ -15,21 +15,26 @@ class Experiences extends Component {
     ) => (
       <tr key={exp._id}>
         <td>{exp.title}</td>
-        <td>{exp.description}</td>
         <td>
-          {exp.from ? <Moment format="YY/MM/DD">{exp.from}</Moment> : " "}{" "}
-          {exp.current ? (
-            "..current"
-          ) : (
-            <Moment format="YY/MM/DD">{exp.to}</Moment>
-          )}
+          {exp.description}
+          <p>
+            <b>
+              {exp.from ? <Moment format="YY/MM/DD">{exp.from}</Moment> : " "}{" "}
+              {exp.current ? (
+                "..current"
+              ) : (
+                <Moment format="YY/MM/DD">{exp.to}</Moment>
+              )}
+            </b>
+          </p>
         </td>
+
         <td>
           <button
             className="btn btn-danger"
             onClick={this.onDeleteClick.bind(this, exp._id)}
           >
-            Delete
+            <i className="fas fa-times" />
           </button>
         </td>
       </tr>
@@ -43,7 +48,6 @@ class Experiences extends Component {
             <tr>
               <th>Titile</th>
               <th>Description</th>
-              <th>Time</th>
               <th />
             </tr>
             {experiences}

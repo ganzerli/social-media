@@ -49,7 +49,7 @@ class CommentForm extends Component {
       <>
         <div className="post-form mb-3">
           <div className="card card-info">
-            <div className="card-header bg-info text-white">
+            <div className="card-header gradient-background text-secondary">
               C O M M E N T H E R E
             </div>
             <div className="card-body">

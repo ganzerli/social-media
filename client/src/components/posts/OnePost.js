@@ -31,7 +31,7 @@ class OnePost extends React.Component {
     // post comes as prof from the parent component who maps throught the array of profiles and returns directly all this stuff for every post
     if (post.name === "name name")
       post.avatar =
-        "https://secure.gravatar.com/avatar/76e9c15052ad099a9054f909175df1d0?s=320";
+        "https://www.gravatar.com/avatar/b7408665c4be7e56d084c32eddd1de3d?s=200";
     let theButtons = (
       <>
         <button
@@ -54,8 +54,11 @@ class OnePost extends React.Component {
         >
           <i className="text-secondary fas fa-thumbs-down" />
         </button>
-        <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
-          Comment
+        <Link
+          to={`/post/${post._id}`}
+          className="btn bg-secondary text-light mr-1"
+        >
+          <b>Comment</b>
         </Link>
 
         {auth.user.id === post.user ? (

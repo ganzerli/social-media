@@ -82,7 +82,8 @@ class Login extends Component {
 
                   <input
                     type="submit"
-                    className="btn btn-info btn-block mt-4"
+                    className="btn btn-outline-success btn-block mt-4"
+                    value="LOGIN INTO YOUR ACCOUNT"
                   />
                 </form>
               </div>

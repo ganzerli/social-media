@@ -15,21 +15,24 @@ class Infos extends Component {
     ) => (
       <tr key={info._id}>
         <td>{info.field}</td>
-        <td>{info.description}</td>
         <td>
-          {info.from ? <Moment format="YY/MM/DD">{info.from}</Moment> : " "}{" "}
-          {info.current ? (
-            "..current"
-          ) : (
-            <Moment format="YY/MM/DD">{info.to}</Moment>
-          )}
+          {info.description}
+          <b>
+            {info.from ? <Moment format="YY/MM/DD">{info.from}</Moment> : " "}
+            {" _ "}{" "}
+            {info.current ? (
+              " ..current"
+            ) : (
+              <Moment format="YY/MM/DD">{info.to}</Moment>
+            )}
+          </b>
         </td>
         <td>
           <button
             className="btn btn-danger"
             onClick={this.onDeleteClick.bind(this, info._id)}
           >
-            Delete
+            <i className="fas fa-times" />
           </button>
         </td>
       </tr>
@@ -43,7 +46,6 @@ class Infos extends Component {
             <tr>
               <th>Field</th>
               <th>Description</th>
-              <th>Time</th>
               <th />
             </tr>
             {infos}
