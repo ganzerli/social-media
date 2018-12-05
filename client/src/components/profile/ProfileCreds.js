@@ -48,14 +48,14 @@ class ProfileCreds extends Component {
       <div class="row">
         <ul className="col-md-6">
           {isEmpty(experiences) ? null : (
-            <h3 className="text-center">some Experiences...</h3>
+            <h3 className="text-center">Experiences...</h3>
           )}
           {experiences}
         </ul>
 
         <ul className="col-md-6">
           {isEmpty(infos) ? null : (
-            <h3 className="text-center">some othe infos</h3>
+            <h3 className="text-center">Some Other Info</h3>
           )}
           {infos}
         </ul>

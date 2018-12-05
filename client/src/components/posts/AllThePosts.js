@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Posts from "./Posts";
 import OnePost from "./OnePost";
 
 class AllThePosts extends Component {

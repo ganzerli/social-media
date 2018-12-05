@@ -18,19 +18,19 @@ class Navbar extends Component {
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item text-white">
-          <Link className="nav-link" to="/posts">
+          <Link className="navbar-brand text-light" to="/posts">
             POST
           </Link>
         </li>
 
         <li className="nav-item">
-          <Link className="nav-link text-white" to="/dashboard">
+          <Link className="navbar-brand text-light text-white" to="/dashboard">
             DASHBOARD
           </Link>
         </li>
         <li className="nav-item">
           <a
-            className="nav-link"
+            className="navbar-brand text-light"
             href="#!"
             onClick={this.onLogoutClick.bind(this)}
           >
@@ -50,12 +50,12 @@ class Navbar extends Component {
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <Link className="nav-link" to="/register">
+          <Link className="navbar-brand text-light" to="/register">
             Sign Up
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/login">
+          <Link className="navbar-brand text-light" to="/login">
             Login
           </Link>
         </li>
@@ -63,9 +63,9 @@ class Navbar extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4 gradient">
+      <nav className="navbar navbar-expand-sm navbar-dark mb-4 gradient text-light">
         <div className="container">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand text-light" to="/">
             OUTTHERE !
           </Link>
           <button
@@ -80,7 +80,7 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/profiles">
+                <Link className="navbar-brand text-light" to="/profiles">
                   Profiles
                 </Link>
               </li>

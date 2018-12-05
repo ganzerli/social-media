@@ -62,10 +62,20 @@ small.glow {
   padding-top: 80px;
 }
 .gradient {
-  background: linear-gradient(rgb(20, 30, 37), rgb(16, 31, 21));
+  background: #00467f; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #a5cc82,
+    #00467f
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #a5cc82,
+    #00467f
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .dark-overlay {
-  background-color: rgba(0, 7, 10, 0.8);
+  background-color: rgba(0, 7, 10, 0.6);
   position: absolute;
   top: 0;
   left: 0;

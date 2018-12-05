@@ -6,27 +6,6 @@ const passport = require("passport");
 const Post = require("../../models/Post");
 const Profile = require("../../models/Profile");
 
-// @route   GET api/posts
-// @desc    Get posts
-// @access  Public
-router.get("/", (req, res) => {
-  Post.find()
-    .sort({ date: -1 })
-    .then(posts => res.json(posts))
-    .catch(err => res.status(404).json({ nopost: "There isn't any post yet" }));
-});
-
-// @route   GET api/posts/:id
-// @desc    Get post by id
-// @access  Public
-router.get("/:id", (req, res) => {
-  Post.findById(req.params.id)
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopost: "ID param not found for Post in DB" })
-    );
-});
-
 //@route POST api/posts
 //@description POST a Post
 //@access Private
@@ -80,9 +59,9 @@ router.delete(
   }
 );
 
-//@route Post api/post/
-//@descr Like a comment
-//@access Private
+//@route     Post api/post/
+//@descr     Like a comment
+//@access    Private
 router.post(
   "/like/:id",
   passport.authenticate("jwt", { session: false }),
@@ -110,10 +89,9 @@ router.post(
   }
 );
 
-//@route POST api/post/
-//@description UNLIKE
-//@access PRIVATE
-
+//@route    POST api/post/
+//@descr    UNLIKE
+//@access   PRIVATE
 router.post(
   "/unlike/:id",
   passport.authenticate("jwt", { session: false }),
@@ -186,7 +164,6 @@ router.post(
 //@route    DELETE api/posts/comment/:id/:comment_id
 //@desc     Remove commentfrom a Post
 //@access   Private
-
 router.delete(
   "/comment/:id/:comment_id",
   passport.authenticate("jwt", { session: false }),
@@ -215,5 +192,26 @@ router.delete(
       .catch(err => res.status(404).json(err));
   }
 );
+
+// @route   GET api/posts
+// @descr   Get  all the posts in the db
+// @access  Public
+router.get("/", (req, res) => {
+  Post.find()
+    .sort({ date: -1 })
+    .then(allPosts => res.json(allPosts))
+    .catch(err => res.status(404).json({ nopost: "There isn't any post yet" }));
+});
+
+// @route   GET api/posts/:id
+// @descr   Get the post from the id
+// @access  Public
+router.get("/:id", (req, res) => {
+  Post.findById(req.params.id)
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopost: "ID param not found for Post in DB" })
+    );
+});
 
 module.exports = router;
