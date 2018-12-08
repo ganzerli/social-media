@@ -232,12 +232,12 @@ class EditProfile extends Component {
 
                 <TextFieldGroup
                   type="text"
-                  placeholder="website"
+                  placeholder="https://www..."
                   name="website"
                   value={this.state.website}
                   error={errors.website}
                   onChange={this.onChange}
-                  info="do u have a website?"
+                  info="Full path example https://www.outthere.com"
                 />
 
                 <TextFieldGroup
