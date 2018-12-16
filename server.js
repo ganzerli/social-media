@@ -48,7 +48,6 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-} else {
 }
 
 // (run server) create a variable for the port to use, for using huroku
