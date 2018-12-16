@@ -10,7 +10,7 @@ class ProfileItem extends Component {
     //Profile.find()
     //.populate("user", ["avatar", "name"])    --> that let us pick up the user infos passed
     return (
-      <div className="card gradient-background card-body mb-3">
+      <div className="card profiles-background card-body mb-3">
         <div className="row">
           <div className="col-2">
             <img src={profile.user.avatar} alt="" className="rounded-circle" />
@@ -30,7 +30,7 @@ class ProfileItem extends Component {
             <p>
               <Link
                 to={`/profile/${profile.handle}`}
-                className="btn bg-light text-warning font-weight-bold"
+                className="btn bg-secondary text-light font-weight-bold"
               >
                 Wiev profile
               </Link>

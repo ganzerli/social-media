@@ -76,7 +76,8 @@ class Dashboard extends Component {
             <div className="col-md-12">
               <h1 className="display-4"> Dashboard </h1>
               <h2 style={{ fontSize: 16, color: "grey" }}>
-                WELCOME {user.name}
+                WELCOME {user.name}. Edit your profile, experieces, and personal
+                informations.
               </h2>
               {dashboardContent}
             </div>

@@ -1,4 +1,5 @@
-module.exports = {
-  mongoURI: "mongodb://massimo:ganzerl1@ds249503.mlab.com:49503/outthere",
-  aSuperSecretKey: "suprki" // secretOrKey is needed for the jwt Strategy
-};
+if (process.env.NODE_ENV === "production") {
+  module.exports = require("./keys_prod");
+} else {
+  module.exports = require("./keys_dev");
+}

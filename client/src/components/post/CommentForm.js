@@ -50,7 +50,7 @@ class CommentForm extends Component {
         <div className="post-form mb-3">
           <div className="card card-info">
             <div className="card-header gradient-background text-secondary">
-              C O M M E N T H E R E
+              LEAVE YOUR COMMENT
             </div>
             <div className="card-body">
               <form onSubmit={this.onSubmit}>

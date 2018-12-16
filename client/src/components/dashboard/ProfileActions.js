@@ -11,7 +11,7 @@ const ProfileActions = () => {
         </Link>
         <Link to="/add-experiences" className="btn btn-light">
           <i className="fas fa-plane mr-1 text-info" />
-          About You
+          Experienced
         </Link>
         <Link to="/add-infos" className="btn btn-light">
           <i className="fas fa-info text-info mr-1" />

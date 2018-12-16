@@ -42,7 +42,7 @@ class Experiences extends Component {
 
     return (
       <div>
-        <h4 className="mb-4">Something about..</h4>
+        <h4 className="mb-4">Tell Something About Your Life..</h4>
         <table className="table">
           <thead>
             <tr>

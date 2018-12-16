@@ -53,6 +53,9 @@ img {
     #e7ffe5
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.profiles-background {
+  background: rgba(179, 255, 171, 0.3);
+}
 
 small.glow {
   color: rgb(255, 106, 80) !important;
