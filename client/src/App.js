@@ -25,7 +25,7 @@ import setAuthToken from "./util/setAuthToken";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import "./App.css";
-import PostForm from "./components/posts/PostForm";
+import "./btn-back-portfolio.css";
 
 // check if there is a token
 if (localStorage.jwtToken) {
@@ -88,9 +88,11 @@ class App extends Component {
                 component={AddExperiences}
               />
             </Switch>
+
             <Switch>
               <PrivateRoute exact path="/add-infos" component={AddInfos} />
             </Switch>
+
             <Switch>
               <PrivateRoute exact path="/posts" component={Posts} />
             </Switch>
@@ -99,6 +101,12 @@ class App extends Component {
               <PrivateRoute exact path="/post/:id" component={Post} />
             </Switch>
           </div>
+          <a
+            className="btn-back-portfolio"
+            href="https://ganzerli.github.io/portfolio/"
+          >
+            PORTFOLIO
+          </a>
           <Footer />
         </div>
       </Router>

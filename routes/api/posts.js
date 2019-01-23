@@ -34,8 +34,29 @@ router.post(
   }
 );
 
+// @route   GET api/posts
+// @descr   Get  all the posts in the db
+// @access  Public
+router.get("/", (req, res) => {
+  Post.find()
+    .sort({ date: -1 })
+    .then(allPosts => res.json(allPosts))
+    .catch(err => res.status(404).json({ nopost: "There isn't any post yet" }));
+});
+
+// @route   GET api/posts/:id
+// @descr   Get the post from the id
+// @access  Public
+router.get("/:id", (req, res) => {
+  Post.findById(req.params.id)
+    .then(post => res.json(post))
+    .catch(err =>
+      res.status(404).json({ nopost: "ID param not found for Post in DB" })
+    );
+});
+
 //@route  DELETE api/post/:id
-//@desc   Delete a post
+//@descr   Delete a post
 //@access Private
 router.delete(
   "/:id",
@@ -192,26 +213,5 @@ router.delete(
       .catch(err => res.status(404).json(err));
   }
 );
-
-// @route   GET api/posts
-// @descr   Get  all the posts in the db
-// @access  Public
-router.get("/", (req, res) => {
-  Post.find()
-    .sort({ date: -1 })
-    .then(allPosts => res.json(allPosts))
-    .catch(err => res.status(404).json({ nopost: "There isn't any post yet" }));
-});
-
-// @route   GET api/posts/:id
-// @descr   Get the post from the id
-// @access  Public
-router.get("/:id", (req, res) => {
-  Post.findById(req.params.id)
-    .then(post => res.json(post))
-    .catch(err =>
-      res.status(404).json({ nopost: "ID param not found for Post in DB" })
-    );
-});
 
 module.exports = router;
